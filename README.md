@@ -5,6 +5,8 @@ This portfolio is created using HTML and CSS, focusing on clean structure, simpl
 
 Through this repository, you can explore:<br>
 
+<ahref="https://github.com/zikra-data-analytics/Introduction/blob/main/index.html"> Introduction </a>
+
 My basic web development skills<br>
 
 Sample projects and practice work<br>
