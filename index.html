@@ -2,65 +2,933 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Zikra Shaikh | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zikra Shaikh | Data Analyst</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080c10;
+            --bg2: #0d1117;
+            --bg3: #141b24;
+            --accent: #00d4aa;
+            --accent2: #f5a623;
+            --text: #e8edf2;
+            --muted: #6b7a8d;
+            --border: rgba(0, 212, 170, 0.15);
+            --card: rgba(20, 27, 36, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── GRID BACKGROUND ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8,12,16,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 60px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.2s;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 24px; height: 1px;
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(52px, 8vw, 96px);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.4s;
+        }
+
+        .hero h1 .name { color: var(--text); }
+        .hero h1 .role {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(0,212,170,0.5);
+        }
+
+        .typewriter-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.6s;
+        }
+
+        .typewriter-label {
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+        }
+
+        #typewriter {
+            font-size: 16px;
+            color: var(--accent2);
+            font-weight: 500;
+            min-width: 280px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px; height: 1em;
+            background: var(--accent2);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        .hero-bio {
+            max-width: 520px;
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.8s;
+        }
+
+        .hero-bio span { color: var(--text); }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 1s;
+        }
+
+        .btn-primary {
+            padding: 14px 32px;
+            background: var(--accent);
+            color: var(--bg);
+            text-decoration: none;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0,212,170,0.3);
+        }
+
+        .btn-secondary {
+            padding: 14px 32px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ── STATS STRIP ── */
+        .stats-strip {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 1.2s;
+        }
+
+        .stat-item {
+            padding: 36px 40px;
+            border-right: 1px solid var(--border);
+        }
+        .stat-item:last-child { border-right: none; }
+
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* ── SECTIONS COMMON ── */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 60px;
+        }
+
+        .section-tag {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-tag::before {
+            content: '';
+            width: 16px; height: 1px;
+            background: var(--accent);
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 60px;
+            letter-spacing: -0.02em;
+        }
+
+        /* ── SKILLS ── */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2px;
+        }
+
+        .skill-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 32px;
+            transition: border-color 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .skill-card:hover::before { transform: scaleX(1); }
+        .skill-card:hover {
+            border-color: rgba(0,212,170,0.4);
+            transform: translateY(-4px);
+        }
+
+        .skill-icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .skill-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .skill-desc {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .tag {
+            font-size: 10px;
+            padding: 4px 10px;
+            background: rgba(0,212,170,0.08);
+            border: 1px solid rgba(0,212,170,0.2);
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        /* ── PROJECTS ── */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 36px;
+            position: relative;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: rgba(0,212,170,0.4);
+            transform: translateY(-6px);
+        }
+
+        .project-number {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .project-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .project-insight {
+            font-size: 12px;
+            color: var(--accent2);
+            background: rgba(245,166,35,0.07);
+            border-left: 2px solid var(--accent2);
+            padding: 10px 14px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-tools {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            font-size: 11px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+        }
+
+        .project-link:hover { gap: 10px; }
+
+        /* ── ABOUT ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-text p {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .about-text p span { color: var(--text); }
+
+        .about-timeline {
+            border-left: 1px solid var(--border);
+            padding-left: 32px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px; top: 6px;
+            width: 10px; height: 10px;
+            border: 1px solid var(--accent);
+            background: var(--bg);
+            transform: rotate(45deg);
+        }
+
+        .timeline-year {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+        }
+
+        .timeline-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ── CONTACT ── */
+        .contact-inner {
+            max-width: 640px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 48px;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .contact-item:hover {
+            border-color: rgba(0,212,170,0.5);
+            background: rgba(0,212,170,0.04);
+        }
+
+        .contact-item-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .contact-item-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .contact-arrow {
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 32px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .footer-accent { color: var(--accent); }
+
+        /* ── GLOW ORBS ── */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12;
+        }
+
+        .orb-1 {
+            width: 400px; height: 400px;
+            background: var(--accent);
+            top: -100px; right: -100px;
+        }
+
+        .orb-2 {
+            width: 300px; height: 300px;
+            background: var(--accent2);
+            bottom: 100px; left: -80px;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 16px 24px; }
+            .nav-links { display: none; }
+            .hero { padding: 100px 24px 60px; }
+            .stats-strip { grid-template-columns: repeat(2, 1fr); }
+            section { padding: 80px 24px; }
+            .about-grid { grid-template-columns: 1fr; gap: 48px; }
+            footer { flex-direction: column; gap: 12px; text-align: center; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <h1>Zikra Shaikh</h1>
-        <p>Aspiring Web Developer | Python & Web Enthusiast</p>
-    </header>
+    <!-- Glow Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <!-- About Section -->
-    <section class="about">
-        <h2>About Me</h2>
-        <p>
-            I am a beginner Data Science and analytics person learning SQL, Power Bi and Python.
-            I am passionate about creating simple, clean and user-friendly websites.
-            Currently, I am building projects to grow my skills and start freelancing.
-        </p>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>SQL</li>
-            <li>Power BI</li>
-            <li>JavaScript (Basics)</li>
-            <li>Python (Beginner)</li>
-            <li>Git & GitHub</li>
+    <!-- Nav -->
+    <nav>
+        <div class="nav-logo">ZS_</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-tag">Available for opportunities</div>
+        <h1>
+            <span class="name">Zikra<br>Shaikh</span><br>
+            <span class="role">Data Analyst</span>
+        </h1>
+        <div class="typewriter-wrap">
+            <span class="typewriter-label">// currently working with</span>
+            <span id="typewriter"></span><span class="cursor"></span>
+        </div>
+        <p class="hero-bio">
+            I turn <span>messy data</span> into clear decisions.
+            Specialising in <span>SQL, Python & Power BI</span> — I build
+            end-to-end analytical pipelines that answer real business questions
+            with precision and speed.
+        </p>
+        <div class="hero-cta">
+            <a href="#projects" class="btn-primary">View My Work →</a>
+            <a href="#contact" class="btn-secondary">Get In Touch</a>
+        </div>
     </section>
 
-    <!-- Projects Section -->
-    <section class="projects">
-        <h2>Projects</h2>
-
-        <div class="project-card">
-            <h3>Portfolio Website</h3>
-            <p>A simple personal portfolio built using HTML and CSS.</p>
+    <!-- Stats Strip -->
+    <div class="stats-strip">
+        <div class="stat-item">
+            <div class="stat-number" data-count="5">0</div>
+            <div class="stat-label">SQL Projects</div>
         </div>
+        <div class="stat-item">
+            <div class="stat-number" data-count="3">0</div>
+            <div class="stat-label">Databases Designed</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-count="10">0</div>
+            <div class="stat-label">SQL Concepts Mastered</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-count="100">0</div>
+            <div class="stat-label">% Self-Driven Learning</div>
+        </div>
+    </div>
 
-        <div class="project-card">
-            <h3>Service Booking Website</h3>
-            <p>A basic service booking platform like UrbanClap (Work in progress).</p>
+    <!-- Skills -->
+    <section id="skills">
+        <div class="section-tag">Capabilities</div>
+        <h2 class="section-title">What I Work With</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">🗄️</div>
+                <div class="skill-name">SQL & Databases</div>
+                <div class="skill-desc">Relational database design, complex JOINs, aggregation, window functions, indexing, and query optimization on SQL Server.</div>
+                <div class="skill-tags">
+                    <span class="tag">T-SQL</span>
+                    <span class="tag">SSMS</span>
+                    <span class="tag">DDL/DML</span>
+                    <span class="tag">Joins</span>
+                    <span class="tag">Indexes</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">📊</div>
+                <div class="skill-name">Data Visualization</div>
+                <div class="skill-desc">Building interactive dashboards and reports that translate raw numbers into clear business narratives for decision-makers.</div>
+                <div class="skill-tags">
+                    <span class="tag">Power BI</span>
+                    <span class="tag">Tableau</span>
+                    <span class="tag">Charts</span>
+                    <span class="tag">KPIs</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🐍</div>
+                <div class="skill-name">Python for Analytics</div>
+                <div class="skill-desc">Data wrangling, exploratory analysis, and visualization using Python's core analytics stack.</div>
+                <div class="skill-tags">
+                    <span class="tag">Pandas</span>
+                    <span class="tag">NumPy</span>
+                    <span class="tag">Matplotlib</span>
+                    <span class="tag">EDA</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🔄</div>
+                <div class="skill-name">Data Transformation</div>
+                <div class="skill-desc">Reshaping and cleaning data pipelines — PIVOT/UNPIVOT, string functions, NULL handling, temp tables, and data normalization.</div>
+                <div class="skill-tags">
+                    <span class="tag">PIVOT</span>
+                    <span class="tag">UNPIVOT</span>
+                    <span class="tag">ETL</span>
+                    <span class="tag">Cleaning</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact">
-        <h2>Contact Me</h2>
-        <p>Email: sahilzik3@gmail.com</p>
-        <p>GitHub: github.com/zikra-data-analytics</p>
+    <!-- Projects -->
+    <section id="projects">
+        <div class="section-tag">Work</div>
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+
+            <div class="project-card">
+                <div class="project-number">01 / SQL</div>
+                <div class="project-title">Company Payroll Analysis</div>
+                <div class="project-desc">Analyzed employee data across 5 departments using advanced GROUP BY, HAVING, and aggregate functions to extract salary distribution insights.</div>
+                <div class="project-insight">💡 Used STRING_AGG() to identify male-dominated departments; discovered NULL handling nuance between COUNT(*) vs COUNT(col)</div>
+                <div class="project-footer">
+                    <div class="project-tools">
+                        <span class="tag">SQL Server</span>
+                        <span class="tag">Aggregation</span>
+                        <span class="tag">NULL Analysis</span>
+                    </div>
+                    <a href="https://github.com/zikra-data-analytics" class="project-link">View →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">02 / SQL</div>
+                <div class="project-title">Library Books Catalog</div>
+                <div class="project-desc">Designed a 3-table relational library system (Authors, Books, Borrows) and wrote INNER, LEFT, RIGHT, FULL JOIN queries to surface data quality issues.</div>
+                <div class="project-insight">💡 Identified orphan record (Book B12 with invalid AuthorId A200) — surfaced using LEFT JOIN vs INNER JOIN comparison</div>
+                <div class="project-footer">
+                    <div class="project-tools">
+                        <span class="tag">JOINs</span>
+                        <span class="tag">Data Quality</span>
+                        <span class="tag">Schema Design</span>
+                    </div>
+                    <a href="https://github.com/zikra-data-analytics" class="project-link">View →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">03 / SQL</div>
+                <div class="project-title">Realtors CRM Database</div>
+                <div class="project-desc">Built a real estate CRM with customer, staff, and order tables. Demonstrated string functions, email migration via REPLACE(), and UNION set operations.</div>
+                <div class="project-insight">💡 Detected customer-staff overlap using INTERSECT; automated email domain migration using REPLACE() + UPDATE</div>
+                <div class="project-footer">
+                    <div class="project-tools">
+                        <span class="tag">String Functions</span>
+                        <span class="tag">UNION</span>
+                        <span class="tag">INTERSECT</span>
+                    </div>
+                    <a href="https://github.com/zikra-data-analytics" class="project-link">View →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">04 / SQL</div>
+                <div class="project-title">Sales PIVOT Report — Supermart</div>
+                <div class="project-desc">Transformed long-format sales transaction data into wide-format country-by-agent pivot reports, then reversed it using UNPIVOT for time-series analysis.</div>
+                <div class="project-insight">💡 Compared GROUP BY vs PIVOT performance for reporting — PIVOT eliminates need for multiple subqueries in cross-tab reports</div>
+                <div class="project-footer">
+                    <div class="project-tools">
+                        <span class="tag">PIVOT</span>
+                        <span class="tag">UNPIVOT</span>
+                        <span class="tag">Reporting</span>
+                    </div>
+                    <a href="https://github.com/zikra-data-analytics" class="project-link">View →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">05 / SQL</div>
+                <div class="project-title">College Database — Schema Design</div>
+                <div class="project-desc">Designed a normalized 3-table schema for a college system with students, departments, and employees — enforcing real-world business rules at the DB level.</div>
+                <div class="project-insight">💡 Applied CHECK, DEFAULT, FOREIGN KEY, UNIQUE constraints — enforced age ≥ 18 rule without any application-side logic</div>
+                <div class="project-footer">
+                    <div class="project-tools">
+                        <span class="tag">DDL</span>
+                        <span class="tag">Constraints</span>
+                        <span class="tag">Normalization</span>
+                    </div>
+                    <a href="https://github.com/zikra-data-analytics" class="project-link">View →</a>
+                </div>
+            </div>
+
+            <div class="project-card" style="border-style: dashed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 280px;">
+                <div style="font-size: 32px; margin-bottom: 16px; opacity: 0.3;">+</div>
+                <div class="project-title" style="color: var(--muted);">Coming Soon</div>
+                <div class="project-desc" style="max-width: 220px;">Python EDA + Power BI Dashboard project in progress</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="section-tag">Background</div>
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    I'm <span>Zikra Shaikh</span>, a data analyst based in <span>Nashik, Maharashtra</span>.
+                    I'm passionate about the entire data lifecycle — from designing clean relational schemas
+                    to extracting business insights that drive decisions.
+                </p>
+                <p>
+                    My foundation is built on <span>SQL and relational database design</span> —
+                    I understand not just how to write queries, but why indexes matter,
+                    when to use PIVOT over GROUP BY, and how NULL handling can silently
+                    break your analytics.
+                </p>
+                <p>
+                    I'm actively expanding into <span>Python for data analysis</span> and
+                    <span>Power BI dashboarding</span> to build full end-to-end analyst capabilities.
+                    My goal is to work on real-world data problems that have measurable business impact.
+                </p>
+            </div>
+            <div class="about-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2026 — Present</div>
+                    <div class="timeline-title">SQL Mastery</div>
+                    <div class="timeline-desc">Advanced T-SQL: indexes, PIVOT/UNPIVOT, string functions, set operations, complex joins</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-title">Database Design</div>
+                    <div class="timeline-desc">Relational schema design, constraints, normalization, DDL/DML on multiple real-world datasets</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-title">Python & Power BI</div>
+                    <div class="timeline-desc">Learning Pandas, NumPy, Matplotlib and building dashboards with Power BI</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">Next</div>
+                    <div class="timeline-title">End-to-End Projects</div>
+                    <div class="timeline-desc">Combining SQL + Python + BI tools for complete analytical case studies</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="section-tag">Let's Connect</div>
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-inner">
+            <p style="font-size: 14px; color: var(--muted); max-width: 400px; line-height: 1.9;">
+                Open to data analyst roles, freelance projects, and collaborations.
+                Let's build something data-driven together.
+            </p>
+            <div class="contact-links">
+                <a href="mailto:sahilzik3@gmail.com" class="contact-item">
+                    <div>
+                        <div class="contact-item-label">Email</div>
+                        <div class="contact-item-value">sahilzik3@gmail.com</div>
+                    </div>
+                    <div class="contact-arrow">→</div>
+                </a>
+                <a href="https://github.com/zikra-data-analytics" target="_blank" class="contact-item">
+                    <div>
+                        <div class="contact-item-label">GitHub</div>
+                        <div class="contact-item-value">github.com/zikra-data-analytics</div>
+                    </div>
+                    <div class="contact-arrow">→</div>
+                </a>
+                <a href="https://www.linkedin.com/in/zikra-shaikh" target="_blank" class="contact-item">
+                    <div>
+                        <div class="contact-item-label">LinkedIn</div>
+                        <div class="contact-item-value">linkedin.com/in/zikra-shaikh</div>
+                    </div>
+                    <div class="contact-arrow">→</div>
+                </a>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>© 2026 Zikra Shaikh | All Rights Reserved</p>
+        <p>© 2026 <span class="footer-accent">Zikra Shaikh</span> — Data Analyst</p>
+        <p style="font-size: 11px; color: var(--muted);">Built with HTML & CSS · Nashik, India</p>
     </footer>
 
+    <script>
+        // Typewriter
+        const phrases = [
+            'SQL Server & T-SQL',
+            'Power BI Dashboards',
+            'Python & Pandas',
+            'Data Storytelling',
+            'Relational Databases'
+        ];
+        let pi = 0, ci = 0, deleting = false;
+        const el = document.getElementById('typewriter');
+
+        function type() {
+            const phrase = phrases[pi];
+            if (!deleting) {
+                el.textContent = phrase.slice(0, ++ci);
+                if (ci === phrase.length) { deleting = true; setTimeout(type, 1800); return; }
+            } else {
+                el.textContent = phrase.slice(0, --ci);
+                if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+            }
+            setTimeout(type, deleting ? 40 : 80);
+        }
+        setTimeout(type, 1400);
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const target = +e.target.dataset.count;
+                    let count = 0;
+                    const step = Math.max(1, Math.floor(target / 40));
+                    const timer = setInterval(() => {
+                        count = Math.min(count + step, target);
+                        e.target.textContent = count + (target === 100 ? '%' : '+');
+                        if (count >= target) clearInterval(timer);
+                    }, 40);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
+    </script>
 </body>
 </html>
